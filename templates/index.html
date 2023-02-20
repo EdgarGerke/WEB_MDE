@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocker Client</title>
+</head>
+
+<body>
+    <button onclick="contactServer()">Click Here</button>
+    <p id='txt'>testdata
+    </p>
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h3 class="mt-5">Live Streaming</h3>
+            <img src="{{ url_for('video_feed') }}" width="100%">
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    const socket = new WebSocket('ws://localhost:8000');
+    
+    socket.addEventListener('open', function (event) {
+        socket.send('Connection Established');
+    });
+
+
+    socket.addEventListener('message', function (event) {
+       
+        document.getElementById("txt").innerHTML = event.data;
+        
+    });
+    function contactServer() {
+	var ws = new WebSocket('ws://localhost:8001');
+	// Web Socket is connected, send data using send()
+	ws.send("Message to send");
+    	console.log("test");
+    
+    }
+
+</script>
+
+</html>
